@@ -2,7 +2,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const Book = require('./Book.js')
+const Book = require('../model/Book.js')
 
 const version = 'v1'
 const PRE_URL = `/api/${version}`
@@ -13,14 +13,6 @@ app.use(bodyParser.json())
 
 //Load mongoose
 const mongoose = require('mongoose')
-mongoose
-    .connect('mongodb+srv://buy-book-admin:root1234@cluster0-khtqt.mongodb.net/books_storage?retryWrites=true', {useNewUrlParser: true})
-    .then(() => {
-        console.log('Database connected successfully...')
-    })
-    .catch((err) => {
-        console.error('Database connection failed...')
-    })
 
 
 //Functionalities: add, update, remove, list all, search
@@ -42,13 +34,7 @@ app.post(`${PRE_URL}/book`, (req, res) => {
         price: req.body.price
     }
 
-    //create new book instance by passing data to a model
-    var book = new Book(newBook)
-    book
-        .save()
-        .then(() => { console.log("New book created!") })
-        .catch((err) => { if(err) {throw err} })
-
+    
     res.status(200).send({
         success: 'true',
         message: 'New book created successfully!',
@@ -86,8 +72,6 @@ app.get(`${PRE_URL}/books`, (req,res) => {
     }
     
     isAll = !(isTitle || isAuthor || isPublisher)
-
-    console.log(isAll)
 
     if (isAll) {
         Book
