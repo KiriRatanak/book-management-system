@@ -39,12 +39,18 @@ let bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model("Book", bookSchema)
 
+const password = 'root1234'
+
+let URI = `mongodb+srv://buy-book-admin:${password}@cluster0-khtqt.mongodb.net/test?retryWrites=true`
+
+
 mongoose
-    .connect('mongodb+srv://buy-book-admin:root1234@cluster0-khtqt.mongodb.net/books_storage?retryWrites=true', {useNewUrlParser: true})
+    .connect(URI, {useNewUrlParser: true})
     .then(() => {
         console.log('Database connected successfully...')
     })
     .catch((err) => {
+        console.log(err)
         console.error('Database connection failed...')
     })
 
@@ -57,70 +63,80 @@ exports.createBook = (bookData) => {
                 .catch((err) => { if(err) {throw err} })    
 }
 
-exports.list = (perPage,page) => {
-    return new Promise((resolve,reject) => {
+exports.list = (perPage, page) => {
+    return new Promise((resolve, reject) => {
         Book
             .find()
             .limit(perPage)
             .skip(perPage * page)
-            .exec(function (err,books) {
-                if(err) {
-                    reject(err)
-                }
-                else {
-                    resolve(books)
-                }
+            .exec(function (err, books) {
+                if(err) { reject(err) }
+                else { resolve(books) }
             })
     })
 }
 
-exports.findByTitle = (perPage,page,bookTitle) => {
-    return new Promise((resolve,reject) => {
+exports.findByTitle = (perPage, page, bookTitle) => {
+    return new Promise((resolve, reject) => {
         Book
             .find({ title: {$regex: bookTitle} })
             .limit(perPage)
             .skip(perPage * page)
-            .exec(function (err,books) {
-                if(err) {
-                    reject(err)
-                }
-                else {
-                    resolve(books)
-                }
+            .exec(function (err, books) {
+                if(err) { reject(err) }
+                else { resolve(books) }
         })  
     }) 
 }
 
-exports.findByAuthor = (perPage,page,bookAuthor) => {
-    return new Promise((resolve,reject) => {
+exports.findByAuthor = (perPage, page, bookAuthor) => {
+    return new Promise((resolve, reject) => {
         Book
             .find({ author: {$regex: bookAuthor} })
             .limit(perPage)
             .skip(perPage * page)
-            .exec(function (err,books) {
-                if(err) {
-                    reject(err)
-                }
-                else {
-                    resolve(books)
-                }
+            .exec(function (err, books) {
+                if(err) { reject(err) }
+                else { resolve(books) }
         })  
     }) 
 }
 
-exports.findByPublisher = (perPage,page,bookPublisher) => {
-    return new Promise((resolve,reject) => {
+exports.findByPublisher = (perPage, page, bookPublisher) => {
+    return new Promise((resolve, reject) => {
         Book
             .find({ publisher: {$regex: bookPublisher} })
             .limit(perPage)
             .skip(perPage * page)
-            .exec(function (err,books) {
-                if(err) {
-                    reject(err)
-                }
-                else {
-                    resolve(books)
-                }
-        })  .find({ title: {$regex: title} })
+            .exec(function (err, books) {
+                if(err) { reject(err) }
+                else { resolve(books) }
+        })
     }) 
+}
+
+exports.patchBook = (id, bookData) => {
+    return new Promise((resolve, reject) => {
+        Book
+            .findById(id, function(err, book) {
+                if(err) { reject(err) }
+                for (let i in bookData) {
+                    book[i] = bookData[i]
+                }
+                book
+                    .save(function(err, updatedBook) {
+                        if(err) { reject(err) }
+                        else { resolve(updatedBook) }
+                    })
+            })
+    })
+}
+
+exports.removeById = (bookId) => {
+    return new Promise((resolve, reject) => {
+        Book.remove( {_id: bookId}, (err) => {
+            if(err) { reject(err) }
+            else { resolve(err) }
+        })
+    })
 }

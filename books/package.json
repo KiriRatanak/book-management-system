@@ -2,15 +2,16 @@
   "name": "books",
   "version": "1.0.0",
   "description": "",
-  "main": "books.js",
+  "main": "index.js",
   "dependencies": {
     "express": "^4.16.4",
-    "mongoose": "^5.4.19"
+    "mongoose": "^5.4.19",
+    "nodemon": "^1.18.11"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon books.js"
+    "start": "nodemon routes.config.js"
   },
   "author": "@ratanak",
   "license": "ISC"
