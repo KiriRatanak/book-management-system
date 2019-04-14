@@ -1,8 +1,10 @@
 const BookModel = require('../model/books.model')
 
 
-//check if limit is not 0 and smaller than 100
+//check if limit is not 0 and smaller than 100, then return the limit and page number
 function checkPage(req) {
+    
+    //if the limit is > 100 then set it to 10 by default
     let limit = req.query.limit && req.query.limit <= 100 ? parseInt(req.query.limit) : 10
     let page = 0
     if (req.query) {
@@ -26,24 +28,23 @@ exports.insert = (req, res) => {
     }
 
     BookModel.createBook(newBook)
-        .then((result) => {
+        .then((book) => {
             res.status(200).send({
                 success: 'true',
                 message: 'New book created successfully!',
                 book
             })
-            .catch((err) => {
-                res.status(400).send({
-                    success: 'false',
-                    status: '400',
-                    message: 'Unable to create new book!'
-                })
+        })
+        .catch((err) => {
+            res.status(400).send({
+                success: 'false',
+                status: '400',
+                message: err
             })
         })
 }
 
 exports.list = (req, res) => {
-    
     let pagination = checkPage(req)
     let limit = pagination[0]
     let page = pagination[1]
@@ -68,10 +69,12 @@ exports.list = (req, res) => {
 }
 
 exports.getByTitle = (req, res) => {
+    console.log('from get by title')
     let pagination = checkPage(req)
     let limit = pagination[0]
     let page = pagination[1]
 
+    console.log(BookModel.list(limit,page))
     BookModel
         .findByTitle(limit, page, req.query.title)
         .then((books) => {

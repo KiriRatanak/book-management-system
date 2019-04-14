@@ -39,9 +39,9 @@ let bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model("Book", bookSchema)
 
-const password = 'root1234'
+const DB_NAME = 'bookArchive'
 
-let URI = `mongodb+srv://buy-book-admin:${password}@cluster0-khtqt.mongodb.net/test?retryWrites=true`
+let URI = `mongodb://localhost:27017/${DB_NAME}?retryWrites=true`
 
 
 mongoose
@@ -54,14 +54,21 @@ mongoose
         console.error('Database connection failed...')
     })
 
+/*
+* these functionalities are exposed to be used by the controller, 
+* so the controller don't directly talk to the db
+*/
 exports.createBook = (bookData) => {
     //create new book instance by passing data to a model
     var book = new Book(bookData)
-    return book
-                .save()
-                .then(() => { console.log("New book created!") })
-                .catch((err) => { if(err) {throw err} })    
+    return book.save()    
 }
+
+
+/* 
+* TODO: 
+* - After the completion of book service, refactor from promises to asyn await 
+*/
 
 exports.list = (perPage, page) => {
     return new Promise((resolve, reject) => {
@@ -77,6 +84,7 @@ exports.list = (perPage, page) => {
 }
 
 exports.findByTitle = (perPage, page, bookTitle) => {
+    console.log('from find by title')
     return new Promise((resolve, reject) => {
         Book
             .find({ title: {$regex: bookTitle} })

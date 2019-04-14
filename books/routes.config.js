@@ -30,6 +30,7 @@ app.get(`${PRE_URL}/books`, (req, res) => {
     if(req.query.title) { BookController.getByTitle(req, res) }
     else if(req.query.author) { BookController.getByAuthor(req, res) }
     else if(req.query.publisher) { BookController.getByPublisher(req, res) }
+    else { BookController.list(req, res) }
 })
     
 app.patch(`${PRE_URL}/book/:id`, [
