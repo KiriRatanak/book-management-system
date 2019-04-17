@@ -69,12 +69,10 @@ exports.list = (req, res) => {
 }
 
 exports.getByTitle = (req, res) => {
-    console.log('from get by title')
     let pagination = checkPage(req)
     let limit = pagination[0]
     let page = pagination[1]
 
-    console.log(BookModel.list(limit,page))
     BookModel
         .findByTitle(limit, page, req.query.title)
         .then((books) => {
@@ -156,9 +154,9 @@ exports.patchBookById = (req, res) => {
     BookModel
         .patchBook(req.params.id, updatedBook)
         .then((book) => {
-            res.status(204).send({
+            res.status(200).send({
                 success: 'true',
-                status: 204,
+                status: 200,
                 message: 'updated successfully',
                 book: book
             })
@@ -176,10 +174,17 @@ exports.removeById = (req, res) => {
     BookModel
         .removeById(req.params.id) 
         .then((result) => {
-            res.status(204).send({
+            res.status(200).send({
                 success: 'true',
-                status: 204,
+                status: 200,
                 message: 'removed successfully'
+            })
+        })
+        .catch((err) => {
+            res.status(404).send({
+                success: 'false',
+                status: 404,
+                message: 'no book found!'
             })
         })
 }

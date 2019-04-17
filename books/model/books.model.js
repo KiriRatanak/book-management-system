@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const config = require('../../common/config/env.config')
 
 let bookSchema = new mongoose.Schema({
         //Title, author, numberPages, publisher, lang
@@ -39,10 +40,7 @@ let bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model("Book", bookSchema)
 
-const DB_NAME = 'bookArchive'
-
-let URI = `mongodb://localhost:27017/${DB_NAME}?retryWrites=true`
-
+let URI = `mongodb://localhost:27017/${config.DB_NAME}?retryWrites=true`
 
 mongoose
     .connect(URI, {useNewUrlParser: true})
@@ -84,7 +82,6 @@ exports.list = (perPage, page) => {
 }
 
 exports.findByTitle = (perPage, page, bookTitle) => {
-    console.log('from find by title')
     return new Promise((resolve, reject) => {
         Book
             .find({ title: {$regex: bookTitle} })
@@ -142,7 +139,7 @@ exports.patchBook = (id, bookData) => {
 
 exports.removeById = (bookId) => {
     return new Promise((resolve, reject) => {
-        Book.remove( {_id: bookId}, (err) => {
+        Book.deleteONe( {_id: bookId}, (err) => {
             if(err) { reject(err) }
             else { resolve(err) }
         })
