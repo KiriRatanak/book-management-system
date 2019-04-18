@@ -16,10 +16,13 @@ function checkPage(req) {
 	return [limit, page]
 }
 
+//Functionalities: add, update, remove, list all, search
+
 exports.insert = (req, res) => {
 	var newBook = {
 		title: req.body.title,
 		author: req.body.author,
+		genres: req.body.genres,
 		numberPages: req.body.numberPages,
 		publisher: req.body.publisher,
 		lang: req.body.lang,
@@ -63,7 +66,8 @@ exports.list = (req, res) => {
 			res.status(400).send({
 				success: 'false',
 				status: '400',
-				message: 'Bad request'
+				message: 'Bad request',
+				error: err
 			})
 		})
 }

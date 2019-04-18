@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const mongoose = require('mongoose')
-const config = require('../../common/config/env.config')
+// const config = require('../../common/config/env.config')
 
 let bookSchema = new mongoose.Schema({
 	//Title, author, numberPages, publisher, lang
@@ -12,6 +12,11 @@ let bookSchema = new mongoose.Schema({
 	},
 	author: {
 		type: String,
+		require: true,
+		lowercase: true
+	},
+	genres: {
+		type: Array,
 		require: true,
 		lowercase: true
 	},
@@ -41,17 +46,21 @@ let bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model('Book', bookSchema)
 
-let URI = `mongodb://localhost:27017/${config.DB_NAME}?retryWrites=true`
+// let URI = `mongodb://localhost:27017/${config.DB_NAME}?retryWrites=true`
 
-mongoose
-	.connect(URI, {useNewUrlParser: true})
-	.then(() => {
-		console.log('Database connected successfully...')
-	})
-	.catch((err) => {
-		console.log(err)
-		console.error('Database connection failed...')
-	})
+
+// exports.connectToDB = async function() {
+// 	await mongoose
+// 		.connect(URI, {useNewUrlParser: true})
+// 		.then(() => {
+// 			console.log('Database connected successfully...')
+// 		})
+// 		.catch((err) => {
+// 			console.log(err)
+// 			console.error('Database connection failed...')
+// 		})
+// }
+
 
 /*
 * these functionalities are exposed to be used by the controller, 
@@ -62,12 +71,6 @@ exports.createBook = (bookData) => {
 	var book = new Book(bookData)
 	return book.save()    
 }
-
-
-/* 
-* TODO: 
-* - After the completion of book service, refactor from promises to asyn await 
-*/
 
 exports.list = (perPage, page) => {
 	return new Promise((resolve, reject) => {
