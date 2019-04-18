@@ -1,2 +1,8 @@
 {
+    "editor.fontSize": 13,
+    "diffEditor.ignoreTrimWhitespace": true,
+    "workbench.colorTheme": "Popping and Locking",
+    "editor.detectIndentation": false,
+	"editor.insertSpaces": false,
+	"eslint.autoFixOnSave": true
 }
