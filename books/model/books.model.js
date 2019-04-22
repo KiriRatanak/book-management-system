@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 const mongoose = require('mongoose')
-// const config = require('../../common/config/env.config')
 
 let bookSchema = new mongoose.Schema({
 	//Title, author, numberPages, publisher, lang
@@ -8,12 +7,12 @@ let bookSchema = new mongoose.Schema({
 	title: {
 		type: String,
 		require: true,
-		lowercase: true
+		lowercase: false
 	},
 	author: {
 		type: String,
 		require: true,
-		lowercase: true
+		lowercase: false
 	},
 	genres: {
 		type: Array,
@@ -34,6 +33,10 @@ let bookSchema = new mongoose.Schema({
 		require: false,
 		lowercase: true
 	},
+	rating: {
+		type: Number,
+		require: false
+	},
 	quantity: {
 		type: Number,
 		required: false
@@ -41,26 +44,14 @@ let bookSchema = new mongoose.Schema({
 	price: {
 		type: Number,
 		required: false
+	},
+	poster: {
+		type: String,
+		require: false
 	}
 })
 
 const Book = mongoose.model('Book', bookSchema)
-
-// let URI = `mongodb://localhost:27017/${config.DB_NAME}?retryWrites=true`
-
-
-// exports.connectToDB = async function() {
-// 	await mongoose
-// 		.connect(URI, {useNewUrlParser: true})
-// 		.then(() => {
-// 			console.log('Database connected successfully...')
-// 		})
-// 		.catch((err) => {
-// 			console.log(err)
-// 			console.error('Database connection failed...')
-// 		})
-// }
-
 
 /*
 * these functionalities are exposed to be used by the controller, 
@@ -143,7 +134,7 @@ exports.patchBook = (id, bookData) => {
 
 exports.removeById = (bookId) => {
 	return new Promise((resolve, reject) => {
-		Book.deleteONe( {_id: bookId}, (err) => {
+		Book.deleteOne( {_id: bookId}, (err) => {
 			if(err) { reject(err) }
 			else { resolve(err) }
 		})

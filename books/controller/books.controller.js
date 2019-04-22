@@ -26,8 +26,10 @@ exports.insert = (req, res) => {
 		numberPages: req.body.numberPages,
 		publisher: req.body.publisher,
 		lang: req.body.lang,
+		rating: req.body.rating,
 		quantity: req.body.quantity,
-		price: req.body.price
+		price: req.body.price,
+		poster: req.body.poster
 	}
 
 	BookModel.createBook(newBook)
