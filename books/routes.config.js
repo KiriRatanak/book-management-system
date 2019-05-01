@@ -8,12 +8,10 @@ exports.routeConfig = (app) => {
 		res.send('This is the books buying service version 1.0...')
 	})
 
-	//Create a book
 	app.post(`${ENDPOINT}/book`, [
 		BookController.insert
 	])
 
-	//Search & retrieve books methods
 	app.get(`${ENDPOINT}/books`, (req, res) => {
 		if(req.query.title) { BookController.getByTitle(req, res) }
 		else if(req.query.author) { BookController.getByAuthor(req, res) }

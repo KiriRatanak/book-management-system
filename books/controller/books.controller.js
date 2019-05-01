@@ -1,9 +1,10 @@
 const BookModel = require('../model/books.model')
 
 
-//check if limit is not 0 and smaller than 100, then return the limit and page number
+/*================================================================================== 
+Check if limit is not 0 and smaller than 100, then return the limit and page number
+==================================================================================*/
 function checkPage(req) {
-    
 	//if the limit is > 100 then set it to 10 by default
 	let limit = req.query.limit && req.query.limit <= 100 ? parseInt(req.query.limit) : 10
 	let page = 0
@@ -16,7 +17,20 @@ function checkPage(req) {
 	return [limit, page]
 }
 
-//Functionalities: add, update, remove, list all, search
+/*========================================================================
+FUCTIONALITIES:
+==========================================================================
+1. Add new book
+	1.1 Required attributes are title, author and genres.
+2. List all the books
+3. List books based on title
+4. List books based on author
+5. List books based on publisher
+6. Edit book based on id
+	6.1 used the title or selected object to retrieve ID
+7. Delete book based on id
+===========================================================================
+=========================================================================*/
 
 exports.insert = (req, res) => {
 	var newBook = {
@@ -29,7 +43,7 @@ exports.insert = (req, res) => {
 		rating: req.body.rating,
 		quantity: req.body.quantity,
 		price: req.body.price,
-		poster: req.body.poster
+		cover: req.body.cover
 	}
 
 	BookModel.createBook(newBook)
@@ -153,11 +167,13 @@ exports.patchBookById = (req, res) => {
 	var updatedBook = {
 		title: req.body.title,
 		author: req.body.author,
+		genres: req.body.genres,
 		numberPages: req.body.numberPages,
 		publisher: req.body.publisher,
 		lang: req.body.lang,
 		quantity: req.body.quantity,
-		price: req.body.price
+		price: req.body.price,
+		cover: req.body.cover
 	}
 
 	BookModel

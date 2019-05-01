@@ -2,22 +2,17 @@
 const mongoose = require('mongoose')
 
 let bookSchema = new mongoose.Schema({
-	//Title, author, numberPages, publisher, lang
-
 	title: {
 		type: String,
-		require: true,
-		lowercase: false
+		require: true
 	},
 	author: {
 		type: String,
-		require: true,
-		lowercase: false
+		require: true
 	},
 	genres: {
 		type: Array,
-		require: true,
-		lowercase: true
+		require: true
 	},
 	numberPages: {
 		type: Number,
@@ -45,7 +40,7 @@ let bookSchema = new mongoose.Schema({
 		type: Number,
 		required: false
 	},
-	poster: {
+	cover: {
 		type: String,
 		require: false
 	}
@@ -53,10 +48,11 @@ let bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model('Book', bookSchema)
 
-/*
-* these functionalities are exposed to be used by the controller, 
+/*================================================================
+* These functionalities are exposed to be used by the controller, 
 * so the controller don't directly talk to the db
-*/
+================================================================*/
+
 exports.createBook = (bookData) => {
 	//create new book instance by passing data to a model
 	var book = new Book(bookData)
@@ -121,7 +117,7 @@ exports.patchBook = (id, bookData) => {
 			.findById(id, function(err, book) {
 				if(err) { reject(err) }
 				for (let i in bookData) {
-					book[i] = bookData[i]
+					if(bookData[i]) { book[i] = bookData[i] }
 				}
 				book
 					.save(function(err, updatedBook) {

@@ -1,6 +1,6 @@
 module.exports = {
 	'PORT' : 3000,
-	'DB_NAME' : 'book_archive',
+	'DB_NAME' : 'bookArchive',
 	'version' : 'v1',
 	'appEndpoint' : '/api/',
 }

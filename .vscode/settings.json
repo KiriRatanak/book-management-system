@@ -1,7 +1,7 @@
 {
     "editor.fontSize": 13,
     "diffEditor.ignoreTrimWhitespace": true,
-    "workbench.colorTheme": "Popping and Locking",
+    "workbench.colorTheme": "Horizon",
     "editor.detectIndentation": false,
 	"editor.insertSpaces": false,
 	"eslint.autoFixOnSave": true
