@@ -16,7 +16,7 @@
     "eslint-config-airbnb": "^17.1.0",
     "jest": "^24.7.1",
 	"supertest": "^4.0.2",
-	"handlebars": ">=4.3.0"
+	"handlebars": ">=4.5.3"
   },
   "scripts": {
     "test": "jest --detectOpenHandles",
