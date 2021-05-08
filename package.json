@@ -8,7 +8,7 @@
     "express": "^4.16.4",
     "mongoose": ">=5.7.5",
 	"nodemon": "^1.18.11",
-	"lodash": ">=4.17.12"
+	"lodash": ">=4.17.21"
   },
   "devDependencies": {
 	"eslint": "^5.16.0",
